@@ -401,11 +401,33 @@ button[type="button"] {
   background: white;
 }
 
-.map-frame iframe {
+.map-frame img {
   width: 100%;
   height: 100%;
   min-height: 420px;
-  border: 0;
+  object-fit: cover;
+  display: block;
+}
+
+.static-shot {
+  box-shadow: 0 20px 60px rgba(25, 40, 30, 0.14);
+}
+
+.static-shot::after {
+  content: "静态截图 · 非在线地图嵌入";
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: white;
+  background: rgba(32, 53, 40, 0.82);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.map-frame.static-shot {
+  position: relative;
 }
 
 .plot-sketch {
