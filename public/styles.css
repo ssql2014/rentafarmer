@@ -407,6 +407,41 @@ button[type="button"] {
   border: 0;
 }
 
+.plot-sketch {
+  margin-top: 18px;
+  border: 1px solid rgba(35, 107, 74, 0.25);
+  border-radius: 8px;
+  padding: 14px;
+  background: white;
+}
+
+.plot-sketch strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.plot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.plot-grid span {
+  min-height: 58px;
+  border-radius: 8px;
+  padding: 10px;
+  color: #203528;
+  font-weight: 800;
+  background:
+    repeating-linear-gradient(90deg, rgba(35, 107, 74, 0.16) 0 8px, rgba(120, 168, 90, 0.28) 8px 16px),
+    #eef6e8;
+}
+
+.plot-grid span:nth-child(4) {
+  color: white;
+  background: var(--green);
+}
+
 .install {
   background: #fffdf8;
 }
