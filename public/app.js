@@ -4,9 +4,6 @@ const sample = document.querySelector("#sample");
 const result = document.querySelector("#result");
 const empty = document.querySelector("#empty-state");
 const apiPreview = document.querySelector("#api-preview code");
-const visualNote = document.querySelector(".visual-note span");
-const fieldPlots = [...document.querySelectorAll(".field-grid span")];
-const statusText = document.querySelector(".floating-ticket span");
 
 const samples = [
   "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便，租赁时长 4 个月",
@@ -18,7 +15,6 @@ const samples = [
 
 sample.addEventListener("click", () => {
   input.value = samples[Math.floor(Math.random() * samples.length)];
-  resetStrategyBoard();
 });
 
 form.addEventListener("submit", async (event) => {
@@ -35,19 +31,12 @@ form.addEventListener("submit", async (event) => {
 function setLoading() {
   empty.classList.add("hidden");
   result.classList.remove("hidden");
-  statusText.textContent = "AI 正在生成策略建议";
-  visualNote.textContent = "正在解析租赁时长、成熟周期、预计产量、面积费用和主理人接口。";
-  fieldPlots.forEach((plot) => {
-    plot.textContent = "";
-    plot.className = "plot-loading";
-  });
   result.innerHTML = `<div class="card"><h3>正在解析</h3><p>AI 正在拆解作物、面积、租赁时长、成熟周期、预计产量、地块条件和费用。</p></div>`;
 }
 
 function renderPlan(plan) {
   const inquiry = plan.inquiry;
   const first = plan.recommendations[0];
-  updateStrategyBoard(plan);
   result.innerHTML = `
     <article class="card highlight-card">
       <h3>策略建议</h3>
@@ -82,9 +71,13 @@ function renderPlan(plan) {
       <p>系统会按当前月份和地块条件筛选品种。</p>
     </article>
     <article class="card">
-      <h3>预估费用</h3>
+      <h3>费用组成</h3>
       <div class="metric">${plan.total.estimatedCostText}</div>
-      <p>建议总面积 ${plan.total.areaText}。该金额是意向预估，最终报价由主理人核地后确认。</p>
+      <p>土地年租按 ${plan.pricing.landRentPerMuYearText}/亩/年折算；人工费按 ${plan.pricing.laborCostPerDayText}/天计算。</p>
+      <ul>
+        <li>土地租金：${plan.total.costBreakdown.landRentText}</li>
+        <li>人工费用：${plan.total.costBreakdown.laborCostText}（约 ${plan.total.costBreakdown.laborDays} 天）</li>
+      </ul>
       <a class="pay-link" href="#compliance">查看承接边界</a>
     </article>
     <article class="card">
@@ -113,26 +106,4 @@ function renderPlan(plan) {
     </article>
   `;
   apiPreview.textContent = JSON.stringify(plan, null, 2);
-}
-
-function updateStrategyBoard(plan) {
-  const cropLabels = plan.recommendations.map((item) => `${item.crop}\\n${item.areaText}\\n${item.expectedYieldText}`);
-  fieldPlots.forEach((plot, index) => {
-    const label = cropLabels[index % cropLabels.length];
-    plot.textContent = label;
-    plot.className = index < cropLabels.length ? "plot-primary" : "plot-reserve";
-  });
-  visualNote.textContent = `策略已生成：${plan.recommendations
-    .map((item) => item.crop)
-    .join("、")}；租期 ${plan.inquiry.lease.text}；最长成熟 ${plan.total.maxCycleText}；预计总产量 ${plan.total.expectedYieldText}。`;
-  statusText.textContent = `已转给${plan.nextStep.areaContact.name}，等待微信核地`;
-}
-
-function resetStrategyBoard() {
-  visualNote.textContent = "用于预览品种分区、租赁时长、成熟周期、预计产量、费用和主理人接口状态。";
-  statusText.textContent = "等待 AI 解析租期、周期、产量和地块条件";
-  fieldPlots.forEach((plot) => {
-    plot.textContent = "";
-    plot.className = "";
-  });
 }

@@ -77,9 +77,7 @@ main {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
   min-height: calc(100vh - 69px);
-  gap: clamp(24px, 5vw, 72px);
   align-items: center;
   padding: clamp(32px, 6vw, 80px) clamp(18px, 4vw, 56px);
   background:
@@ -164,104 +162,6 @@ button,
 button[type="button"] {
   color: var(--green);
   background: var(--mint);
-}
-
-.hero-visual {
-  position: relative;
-  min-height: 440px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
-  background: rgba(247, 242, 232, 0.82);
-  padding: 24px;
-}
-
-.visual-note {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  max-width: 460px;
-  gap: 4px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 12px 14px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 14px 36px rgba(20, 28, 22, 0.12);
-}
-
-.visual-note strong {
-  color: var(--ink);
-}
-
-.visual-note span {
-  color: var(--muted);
-  line-height: 1.45;
-}
-
-.field-grid {
-  display: grid;
-  height: 100%;
-  min-height: 380px;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.field-grid span {
-  border-radius: 8px;
-  background:
-    repeating-linear-gradient(90deg, rgba(63, 47, 38, 0.26) 0 8px, rgba(120, 168, 90, 0.34) 8px 16px),
-    var(--mint);
-  min-height: 112px;
-  padding: 12px;
-  color: rgba(23, 34, 28, 0.86);
-  font-weight: 900;
-  line-height: 1.45;
-  white-space: pre-line;
-  display: flex;
-  align-items: flex-end;
-  box-shadow: inset 0 -42px 50px rgba(255, 255, 255, 0.16);
-  transition:
-    background-color 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.field-grid span.plot-primary {
-  background:
-    repeating-linear-gradient(90deg, rgba(32, 94, 56, 0.28) 0 8px, rgba(160, 205, 116, 0.44) 8px 16px),
-    #cce6b8;
-  box-shadow:
-    inset 0 -52px 56px rgba(255, 255, 255, 0.24),
-    0 12px 30px rgba(35, 107, 74, 0.16);
-}
-
-.field-grid span.plot-reserve {
-  color: rgba(23, 34, 28, 0.46);
-}
-
-.field-grid span.plot-loading {
-  transform: scale(0.985);
-  background:
-    repeating-linear-gradient(90deg, rgba(63, 47, 38, 0.18) 0 8px, rgba(120, 168, 90, 0.22) 8px 16px),
-    #e1edd8;
-}
-
-.floating-ticket {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  width: min(280px, calc(100% - 36px));
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 16px;
-  background: white;
-  box-shadow: 0 18px 50px rgba(20, 28, 22, 0.16);
-}
-
-.floating-ticket span {
-  display: block;
-  margin-top: 6px;
-  color: var(--muted);
 }
 
 .panel,
@@ -617,9 +517,5 @@ pre {
 
   h1 {
     font-size: 42px;
-  }
-
-  .hero-visual {
-    min-height: 300px;
   }
 }

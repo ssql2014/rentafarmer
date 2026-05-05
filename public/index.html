@@ -43,21 +43,6 @@
             </div>
           </form>
         </div>
-        <div class="hero-visual" aria-label="菜地建议看板">
-          <div class="visual-note">
-            <strong>菜地建议看板</strong>
-            <span>用于预览品种分区、租赁时长、成熟周期、预计产量、费用和主理人接口状态。</span>
-          </div>
-          <div class="field-grid">
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span>
-          </div>
-          <div class="floating-ticket">
-            <strong>当前状态</strong>
-            <span>等待 AI 解析租期、周期、产量和地块条件</span>
-          </div>
-        </div>
       </section>
 
       <section class="panel result-panel" aria-live="polite">
@@ -65,7 +50,7 @@
           <p>AI 建议结果</p>
           <h2>品种、租期、周期、产量和费用先行判断</h2>
         </div>
-        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、租赁时长、成熟周期、预计产量、预估费用和微信主理人承接信息。</div>
+        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、租赁时长、成熟周期、预计产量、费用组成和微信主理人承接信息。</div>
         <div id="result" class="result hidden"></div>
       </section>
 
@@ -151,7 +136,7 @@
             <h3>信息流转规则</h3>
             <ol>
               <li>用户提交蔬菜品种、面积和地块条件。</li>
-              <li>AI 生成种植建议和费用预估。</li>
+              <li>AI 生成种植建议和费用组成。</li>
               <li>系统识别所属区域，把种植意向和服务要求转给该区域主理人。</li>
               <li>主理人通过微信对接客户，完成核地、核农时、视频监控、采摘/邮寄/代卖和最终报价。</li>
             </ol>

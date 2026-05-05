@@ -18,6 +18,10 @@ test("recommendPlan returns recommendations and WeChat handoff", () => {
   assert.equal(plan.mode, "wechat_handoff");
   assert.ok(plan.recommendations.length >= 1);
   assert.ok(plan.total.estimatedCost > 0);
+  assert.equal(plan.pricing.landRentPerMuYear, 2000);
+  assert.equal(plan.pricing.laborCostPerDay, 200);
+  assert.ok(plan.total.costBreakdown.landRent > 0);
+  assert.ok(plan.total.costBreakdown.laborCost > 0);
   assert.ok(plan.total.expectedYieldKg > 0);
   assert.ok(plan.total.maxCycleDays > 0);
   assert.ok(plan.strategy.some((item) => item.includes("主推")));

@@ -8,7 +8,7 @@ const cropCatalog = [
     days: 95,
     yieldKgPerFen: 450,
     minAreaFen: 0.5,
-    costPerFen: 1180,
+    laborDaysPerFen: 4,
     tasks: ["整地起垄", "移栽定植", "搭架绑蔓", "水肥管理", "病虫巡检", "采摘配送"],
     reason: "适合家庭认养，采收周期长，过程照片和成熟配送体验清楚。"
   },
@@ -21,7 +21,7 @@ const cropCatalog = [
     days: 70,
     yieldKgPerFen: 650,
     minAreaFen: 0.5,
-    costPerFen: 980,
+    laborDaysPerFen: 3.5,
     tasks: ["整地施肥", "播种或移栽", "搭架引蔓", "滴灌追肥", "采摘分拣"],
     reason: "见效快、复购强，适合做第一期云种菜样板。"
   },
@@ -34,7 +34,7 @@ const cropCatalog = [
     days: 35,
     yieldKgPerFen: 260,
     minAreaFen: 0.3,
-    costPerFen: 520,
+    laborDaysPerFen: 1.5,
     tasks: ["整地做畦", "播种", "浇水保墒", "除草", "采收打包"],
     reason: "周期短，适合低客单试单和亲子体验。"
   },
@@ -47,7 +47,7 @@ const cropCatalog = [
     days: 110,
     yieldKgPerFen: 300,
     minAreaFen: 0.5,
-    costPerFen: 1280,
+    laborDaysPerFen: 4.5,
     tasks: ["育苗移栽", "水肥管理", "整枝打杈", "病虫巡检", "分批采摘"],
     reason: "适合长期代管，分批采摘能增加用户参与感。"
   },
@@ -60,7 +60,7 @@ const cropCatalog = [
     days: 85,
     yieldKgPerFen: 520,
     minAreaFen: 1,
-    costPerFen: 760,
+    laborDaysPerFen: 2,
     tasks: ["整地", "播种", "间苗补苗", "追肥", "收获配送"],
     reason: "管理动作标准，适合合作社集中履约。"
   },
@@ -73,7 +73,7 @@ const cropCatalog = [
     days: 65,
     yieldKgPerFen: 750,
     minAreaFen: 0.5,
-    costPerFen: 620,
+    laborDaysPerFen: 1.5,
     tasks: ["深翻整地", "播种", "间苗", "水肥管理", "采收分拣"],
     reason: "秋冬茬稳定，收获物直观，适合家庭储菜。"
   },
@@ -86,7 +86,7 @@ const cropCatalog = [
     days: 75,
     yieldKgPerFen: 900,
     minAreaFen: 0.5,
-    costPerFen: 680,
+    laborDaysPerFen: 2,
     tasks: ["整地", "移栽或直播", "水肥管理", "病虫巡检", "采收配送"],
     reason: "秋冬需求强，标准化程度高。"
   },
@@ -99,7 +99,7 @@ const cropCatalog = [
     days: 40,
     yieldKgPerFen: 280,
     minAreaFen: 0.3,
-    costPerFen: 520,
+    laborDaysPerFen: 1.5,
     tasks: ["整地", "播种", "浇水", "除草", "采收打包"],
     reason: "耐冷，适合秋冬和早春快周期订单。"
   }
@@ -110,6 +110,9 @@ const money = new Intl.NumberFormat("zh-CN", {
   currency: "CNY",
   maximumFractionDigits: 0
 });
+
+const LAND_RENT_PER_MU_YEAR = 2000;
+const LABOR_COST_PER_DAY = 200;
 
 const areaContacts = [
   {
@@ -187,8 +190,9 @@ export function recommendPlan(text = "", options = {}) {
       suitability: item.suitability,
       areaFen,
       areaText: formatFen(areaFen),
-      estimatedCost: cost,
-      estimatedCostText: money.format(cost),
+      estimatedCost: cost.total,
+      estimatedCostText: money.format(cost.total),
+      costBreakdown: cost,
       cycleDays: item.days,
       cycleText: `${item.days} 天左右`,
       expectedYieldKg: estimateYield(item, areaFen),
@@ -198,6 +202,9 @@ export function recommendPlan(text = "", options = {}) {
     };
   });
   const totalCost = recommendations.reduce((sum, item) => sum + item.estimatedCost, 0);
+  const totalLandRent = recommendations.reduce((sum, item) => sum + item.costBreakdown.landRent, 0);
+  const totalLaborDays = recommendations.reduce((sum, item) => sum + item.costBreakdown.laborDays, 0);
+  const totalLaborCost = recommendations.reduce((sum, item) => sum + item.costBreakdown.laborCost, 0);
   const totalYieldKg = recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0);
   const maxCycleDays = Math.max(...recommendations.map((item) => item.cycleDays));
   const total = {
@@ -205,6 +212,13 @@ export function recommendPlan(text = "", options = {}) {
     areaText: formatFen(totalAreaFen),
     estimatedCost: totalCost,
     estimatedCostText: money.format(totalCost),
+    costBreakdown: {
+      landRent: totalLandRent,
+      landRentText: money.format(totalLandRent),
+      laborDays: totalLaborDays,
+      laborCost: totalLaborCost,
+      laborCostText: money.format(totalLaborCost)
+    },
     expectedYieldKg: totalYieldKg,
     expectedYieldText: formatKg(totalYieldKg),
     maxCycleDays,
@@ -222,6 +236,12 @@ export function recommendPlan(text = "", options = {}) {
 
   return {
     mode: "wechat_handoff",
+    pricing: {
+      landRentPerMuYear: LAND_RENT_PER_MU_YEAR,
+      landRentPerMuYearText: money.format(LAND_RENT_PER_MU_YEAR),
+      laborCostPerDay: LABOR_COST_PER_DAY,
+      laborCostPerDayText: money.format(LABOR_COST_PER_DAY)
+    },
     inquiry,
     recommendations,
     notRecommended,
@@ -237,7 +257,7 @@ export function recommendPlan(text = "", options = {}) {
       action: "add_wechat",
       areaContact: contact,
       wechatId: contact.wechatId,
-      message: buildWechatMessage(inquiry, recommendations, totalCost, contact)
+      message: buildWechatMessage(inquiry, recommendations, total, contact)
     },
     compliance: [
       "当前输出是种植意向建议，不构成最终报价。",
@@ -304,10 +324,22 @@ function allocateArea(crops, totalAreaFen) {
 }
 
 function estimateCost(crop, areaFen, inquiry) {
-  const waterFactor = inquiry.plot.water === "不便" ? 1.12 : 1;
-  const greenhouseFactor = inquiry.plot.greenhouse ? 1.18 : 1;
-  const raw = crop.costPerFen * areaFen * waterFactor * greenhouseFactor;
-  return Math.round(Math.max(299, raw));
+  const leaseDays = inquiry.lease.days ?? crop.days;
+  const landRent = Math.round((areaFen / 10) * LAND_RENT_PER_MU_YEAR * (leaseDays / 365));
+  const waterFactor = inquiry.plot.water === "不便" ? 1.15 : 1;
+  const greenhouseFactor = inquiry.plot.greenhouse ? 1.1 : 1;
+  const laborDays = Math.max(1, Math.ceil(crop.laborDaysPerFen * areaFen * waterFactor * greenhouseFactor));
+  const laborCost = laborDays * LABOR_COST_PER_DAY;
+  return {
+    landRent,
+    landRentText: money.format(landRent),
+    laborDays,
+    laborCost,
+    laborCostText: money.format(laborCost),
+    total: landRent + laborCost,
+    totalText: money.format(landRent + laborCost),
+    formula: `土地年租 ${money.format(LAND_RENT_PER_MU_YEAR)}/亩/年，人工 ${money.format(LABOR_COST_PER_DAY)}/天`
+  };
 }
 
 function estimateYield(crop, areaFen) {
@@ -390,7 +422,7 @@ function buildStrategy(inquiry, recommendations, total, contact) {
   ];
 }
 
-function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
+function buildWechatMessage(inquiry, recommendations, total, contact) {
   const crops = recommendations.map((item) => `${item.crop}${item.areaText}`).join("、");
   const yieldText = recommendations.map((item) => `${item.crop}${item.expectedYieldText}`).join("、");
   return [
@@ -400,7 +432,8 @@ function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
     `成熟周期：最长约 ${Math.max(...recommendations.map((item) => item.cycleDays))} 天`,
     `预计产量：${yieldText}`,
     `租赁时长：${inquiry.lease.text}`,
-    `预估费用：${money.format(totalCost)}`,
+    `预估费用：${total.estimatedCostText}`,
+    `费用组成：土地租金 ${total.costBreakdown.landRentText}；人工费用 ${total.costBreakdown.laborCostText}（约 ${total.costBreakdown.laborDays} 天）。`,
     "服务要求：有机方式管护、不打农药、24 小时视频监控、当地农民服务。",
     "成熟后选项：自行采摘、邮寄、或委托代为销售。",
     `请转给${contact.name}，加微信对接客户，帮我核地块、农时、监控、采摘/邮寄/代卖和最终报价。`
@@ -416,6 +449,7 @@ export function formatRecommendation(plan) {
     `最长成熟周期：${plan.total.maxCycleText}`,
     `预计总产量：${plan.total.expectedYieldText}`,
     `预估费用：${plan.total.estimatedCostText}`,
+    `费用组成：土地租金 ${plan.total.costBreakdown.landRentText}；人工费用 ${plan.total.costBreakdown.laborCostText}（约 ${plan.total.costBreakdown.laborDays} 天）。`,
     `策略建议：${plan.strategy.join("；")}`,
     `服务特色：${plan.serviceFeatures.join("；")}`,
     `成熟后处理：${plan.harvestOptions.join(" / ")}`,
@@ -425,7 +459,7 @@ export function formatRecommendation(plan) {
 
   for (const item of plan.recommendations) {
     lines.push(
-      `- ${item.crop}：${item.areaText}，${item.estimatedCostText}，成熟周期约 ${item.cycleDays} 天，预计产量 ${item.expectedYieldText}，适配度 ${item.suitability}/100`
+      `- ${item.crop}：${item.areaText}，${item.estimatedCostText}（土地 ${item.costBreakdown.landRentText}，人工 ${item.costBreakdown.laborCostText}/${item.costBreakdown.laborDays} 天），成熟周期约 ${item.cycleDays} 天，预计产量 ${item.expectedYieldText}，适配度 ${item.suitability}/100`
     );
     lines.push(`  原因：${item.reasons.join("；")}`);
   }
