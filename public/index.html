@@ -21,6 +21,7 @@
         <a href="#regions">区域</a>
         <a href="#plot-map">地图</a>
         <a href="#install">安装</a>
+        <a href="#openclaw">OpenClaw</a>
         <a href="#api">API</a>
         <a href="#compliance">边界</a>
       </nav>
@@ -221,6 +222,51 @@ ln -s "$PWD" ~/.codex/skills/rentafarmer</code></pre>
             <pre><code>mkdir -p ~/.claude/skills
 ln -s "$PWD" ~/.claude/skills/rentafarmer</code></pre>
           </article>
+        </div>
+      </section>
+
+      <section id="openclaw" class="openclaw">
+        <div class="section-title">
+          <p>OpenClaw 安装调试</p>
+          <h2>把 RentAFarmer 接入长期运行的代理入口</h2>
+        </div>
+        <div class="openclaw-grid">
+          <article class="openclaw-card">
+            <h3>1. 安装 OpenClaw</h3>
+            <p>通过 npm 全局安装 CLI，然后初始化本机配置。</p>
+            <pre><code>npm install -g openclaw
+openclaw --version
+openclaw setup
+openclaw configure</code></pre>
+          </article>
+          <article class="openclaw-card">
+            <h3>2. 安装 RentAFarmer Skill</h3>
+            <p>把当前公开仓库挂到 OpenClaw/Codex 可读取的 skills 目录。</p>
+            <pre><code>git clone https://github.com/ssql2014/rentafarmer.git
+mkdir -p ~/.codex/skills
+ln -s "$PWD/rentafarmer" ~/.codex/skills/rentafarmer
+openclaw skills list</code></pre>
+          </article>
+          <article class="openclaw-card">
+            <h3>3. 启动与健康检查</h3>
+            <p>检查网关、频道、模型和本机配置是否可用。</p>
+            <pre><code>openclaw config validate
+openclaw doctor
+openclaw status
+openclaw health</code></pre>
+          </article>
+          <article class="openclaw-card">
+            <h3>4. 调试日志</h3>
+            <p>出现消息不转发、技能不可见或网关异常时，先看这些信息。</p>
+            <pre><code>openclaw logs
+tail -f ~/.openclaw/logs/gateway.log
+tail -f ~/.openclaw/logs/gateway.err.log
+openclaw channels list</code></pre>
+          </article>
+        </div>
+        <div class="debug-note">
+          <strong>调试建议</strong>
+          <span>先跑 `openclaw doctor`，再看 `openclaw status` 和 gateway 日志。不要把微信、Discord、模型密钥写进网页或仓库。</span>
         </div>
       </section>
 

@@ -214,6 +214,7 @@ button[type="button"] {
 .regions,
 .plot-map,
 .install,
+.openclaw,
 .api-layout,
 .compliance {
   padding: clamp(38px, 6vw, 76px) clamp(18px, 4vw, 56px);
@@ -474,6 +475,58 @@ button[type="button"] {
   font-size: 13px;
 }
 
+.openclaw {
+  background: #eef6e8;
+}
+
+.openclaw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.openclaw-card {
+  border: 1px solid rgba(35, 107, 74, 0.22);
+  border-radius: 8px;
+  padding: 18px;
+  background: white;
+}
+
+.openclaw-card h3 {
+  margin: 0 0 10px;
+}
+
+.openclaw-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.openclaw-card pre {
+  min-height: 0;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.debug-note {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 14px;
+  margin-top: 16px;
+  border: 1px solid rgba(35, 107, 74, 0.22);
+  border-radius: 8px;
+  padding: 16px;
+  background: white;
+}
+
+.debug-note strong {
+  color: var(--green);
+}
+
+.debug-note span {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
 .api-layout {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -516,6 +569,7 @@ pre {
   .result,
   .feature-grid,
   .steps,
+  .openclaw-grid,
   .install-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -529,7 +583,12 @@ pre {
   .result,
   .feature-grid,
   .steps,
+  .openclaw-grid,
   .install-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .debug-note {
     grid-template-columns: 1fr;
   }
 
