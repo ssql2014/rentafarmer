@@ -32,11 +32,11 @@
           <p class="eyebrow">有机管护 · 24 小时视频 · 当地农民服务</p>
           <h1>让用户看得见地块，也看得见种菜过程。</h1>
           <p class="lead">
-            用户给出一种或多种蔬菜，AI 结合季节和地块条件生成建议；确认意向后，由区域主理人加微信对接客户，核地块、核农时、安排当地农民服务。
+            用户给出一种或多种蔬菜、地块条件和租赁时长，AI 生成品种建议、成熟周期、预计产量、面积和费用；确认意向后，由区域主理人接口加微信对接客户。
           </p>
           <form id="request-form" class="planner">
-            <label for="request">告诉 AI 你想种什么</label>
-            <textarea id="request" name="request" rows="5">我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便</textarea>
+            <label for="request">告诉 AI 你想种什么、租多久</label>
+            <textarea id="request" name="request" rows="5">我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便，租赁时长 4 个月</textarea>
             <div class="actions">
               <button type="submit">生成种植建议</button>
               <button type="button" id="sample">换一个示例</button>
@@ -46,7 +46,7 @@
         <div class="hero-visual" aria-label="菜地建议看板">
           <div class="visual-note">
             <strong>菜地建议看板</strong>
-            <span>用于预览 AI 如何分配品种、面积、费用，并显示主理人对接状态。</span>
+            <span>用于预览品种分区、租赁时长、成熟周期、预计产量、费用和主理人接口状态。</span>
           </div>
           <div class="field-grid">
             <span></span><span></span><span></span><span></span>
@@ -55,7 +55,7 @@
           </div>
           <div class="floating-ticket">
             <strong>当前状态</strong>
-            <span>等待 AI 解析，随后转给区域主理人</span>
+            <span>等待 AI 解析租期、周期、产量和地块条件</span>
           </div>
         </div>
       </section>
@@ -63,9 +63,9 @@
       <section class="panel result-panel" aria-live="polite">
         <div class="section-title">
           <p>AI 建议结果</p>
-          <h2>品种、面积和费用先行判断</h2>
+          <h2>品种、租期、周期、产量和费用先行判断</h2>
         </div>
-        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、预估费用、周期和微信主理人承接信息。</div>
+        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、租赁时长、成熟周期、预计产量、预估费用和微信主理人承接信息。</div>
         <div id="result" class="result hidden"></div>
       </section>
 

@@ -6,6 +6,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["壤土", "沙壤土"],
     days: 95,
+    yieldKgPerFen: 450,
     minAreaFen: 0.5,
     costPerFen: 1180,
     tasks: ["整地起垄", "移栽定植", "搭架绑蔓", "水肥管理", "病虫巡检", "采摘配送"],
@@ -18,6 +19,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["壤土", "沙壤土"],
     days: 70,
+    yieldKgPerFen: 650,
     minAreaFen: 0.5,
     costPerFen: 980,
     tasks: ["整地施肥", "播种或移栽", "搭架引蔓", "滴灌追肥", "采摘分拣"],
@@ -30,6 +32,7 @@ const cropCatalog = [
     sunlight: "半日照",
     soil: ["壤土", "沙壤土", "黏土"],
     days: 35,
+    yieldKgPerFen: 260,
     minAreaFen: 0.3,
     costPerFen: 520,
     tasks: ["整地做畦", "播种", "浇水保墒", "除草", "采收打包"],
@@ -42,6 +45,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["壤土", "沙壤土"],
     days: 110,
+    yieldKgPerFen: 300,
     minAreaFen: 0.5,
     costPerFen: 1280,
     tasks: ["育苗移栽", "水肥管理", "整枝打杈", "病虫巡检", "分批采摘"],
@@ -54,6 +58,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["壤土", "沙壤土", "黏土"],
     days: 85,
+    yieldKgPerFen: 520,
     minAreaFen: 1,
     costPerFen: 760,
     tasks: ["整地", "播种", "间苗补苗", "追肥", "收获配送"],
@@ -66,6 +71,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["沙壤土", "壤土"],
     days: 65,
+    yieldKgPerFen: 750,
     minAreaFen: 0.5,
     costPerFen: 620,
     tasks: ["深翻整地", "播种", "间苗", "水肥管理", "采收分拣"],
@@ -78,6 +84,7 @@ const cropCatalog = [
     sunlight: "全日照",
     soil: ["壤土", "黏土"],
     days: 75,
+    yieldKgPerFen: 900,
     minAreaFen: 0.5,
     costPerFen: 680,
     tasks: ["整地", "移栽或直播", "水肥管理", "病虫巡检", "采收配送"],
@@ -90,6 +97,7 @@ const cropCatalog = [
     sunlight: "半日照",
     soil: ["壤土", "沙壤土", "黏土"],
     days: 40,
+    yieldKgPerFen: 280,
     minAreaFen: 0.3,
     costPerFen: 520,
     tasks: ["整地", "播种", "浇水", "除草", "采收打包"],
@@ -129,6 +137,7 @@ export function parseInquiry(text = "", date = new Date()) {
     .map((item) => item.crop);
   const areaMatch = source.match(/(\d+(?:\.\d+)?)\s*(亩|分|平方米|平米|m2|㎡)/i);
   const budgetMatch = source.match(/(?:预算|费用|价格|控制在|不超过)\D*(\d+(?:\.\d+)?)/);
+  const lease = parseLease(source);
   const month = date.getMonth() + 1;
 
   return {
@@ -138,6 +147,7 @@ export function parseInquiry(text = "", date = new Date()) {
     unit: areaMatch ? normalizeUnit(areaMatch[2]) : null,
     areaFen: areaMatch ? toFen(Number(areaMatch[1]), areaMatch[2]) : null,
     budget: budgetMatch ? Number(budgetMatch[1]) : null,
+    lease,
     region: detectRegion(source),
     plot: {
       sunlight: /半阴|半日照|树荫|阴/.test(source) ? "半日照" : "全日照",
@@ -180,6 +190,9 @@ export function recommendPlan(text = "", options = {}) {
       estimatedCost: cost,
       estimatedCostText: money.format(cost),
       cycleDays: item.days,
+      cycleText: `${item.days} 天左右`,
+      expectedYieldKg: estimateYield(item, areaFen),
+      expectedYieldText: formatKg(estimateYield(item, areaFen)),
       tasks: item.tasks,
       reasons: item.reasons
     };
@@ -210,7 +223,11 @@ export function recommendPlan(text = "", options = {}) {
       areaFen: Number(totalAreaFen.toFixed(2)),
       areaText: formatFen(totalAreaFen),
       estimatedCost: totalCost,
-      estimatedCostText: money.format(totalCost)
+      estimatedCostText: money.format(totalCost),
+      expectedYieldKg: recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0),
+      expectedYieldText: formatKg(recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0)),
+      maxCycleDays: Math.max(...recommendations.map((item) => item.cycleDays)),
+      maxCycleText: `${Math.max(...recommendations.map((item) => item.cycleDays))} 天左右`
     },
     nextStep: {
       action: "add_wechat",
@@ -289,6 +306,16 @@ function estimateCost(crop, areaFen, inquiry) {
   return Math.round(Math.max(299, raw));
 }
 
+function estimateYield(crop, areaFen) {
+  const raw = crop.yieldKgPerFen * areaFen;
+  return Math.round(raw / 5) * 5;
+}
+
+function formatKg(kg) {
+  if (kg >= 1000) return `${Number((kg / 1000).toFixed(2))} 吨`;
+  return `${kg} 公斤`;
+}
+
 function defaultAreaFen(cropCount) {
   return cropCount > 1 ? cropCount : 1;
 }
@@ -320,6 +347,22 @@ function toFen(area, unit) {
   return Number(area.toFixed(2));
 }
 
+function parseLease(text) {
+  if (!text) return { provided: false, days: null, text: "未提供，需客户补充" };
+  const halfYear = /(半年|半年度)/.test(text);
+  if (halfYear) return { provided: true, days: 180, text: "半年" };
+  const season = /(一季|一茬|一季菜|一茬菜)/.test(text);
+  if (season) return { provided: true, days: 120, text: "一季" };
+  const match =
+    text.match(/(?:租赁时长|租期|租|包|认养|代管|时长)\D*(\d+(?:\.\d+)?)\s*(年|个月|月|天|日)/) ||
+    text.match(/(\d+(?:\.\d+)?)\s*(年|个月|月|天|日)\s*(?:租期|租赁|认养|代管|包地|服务)/);
+  if (!match) return { provided: false, days: null, text: "未提供，需客户补充" };
+  const value = Number(match[1]);
+  const unit = match[2];
+  const days = unit === "年" ? value * 365 : unit === "个月" || unit === "月" ? value * 30 : value;
+  return { provided: true, days: Math.round(days), text: `${Number(value.toFixed(1))} ${unit}` };
+}
+
 function formatFen(areaFen) {
   if (areaFen >= 10) return `${Number((areaFen / 10).toFixed(2))} 亩`;
   return `${Number(areaFen.toFixed(2))} 分`;
@@ -332,10 +375,14 @@ function resolveAreaContact(inquiry) {
 
 function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
   const crops = recommendations.map((item) => `${item.crop}${item.areaText}`).join("、");
+  const yieldText = recommendations.map((item) => `${item.crop}${item.expectedYieldText}`).join("、");
   return [
     "你好，我想确认云种菜方案。",
     `需求：${inquiry.rawText || "未填写"}`,
     `AI 建议：${crops}`,
+    `成熟周期：最长约 ${Math.max(...recommendations.map((item) => item.cycleDays))} 天`,
+    `预计产量：${yieldText}`,
+    `租赁时长：${inquiry.lease.text}`,
     `预估费用：${money.format(totalCost)}`,
     "服务要求：有机方式管护、不打农药、24 小时视频监控、当地农民服务。",
     "成熟后选项：自行采摘、邮寄、或委托代为销售。",
@@ -348,6 +395,9 @@ export function formatRecommendation(plan) {
     "RentAFarmer 种植意向建议",
     `地块信息：${plan.inquiry.region}，${plan.inquiry.plot.sunlight}，${plan.inquiry.plot.soil}，水源${plan.inquiry.plot.water}`,
     `建议面积：${plan.total.areaText}`,
+    `租赁时长：${plan.inquiry.lease.text}`,
+    `最长成熟周期：${plan.total.maxCycleText}`,
+    `预计总产量：${plan.total.expectedYieldText}`,
     `预估费用：${plan.total.estimatedCostText}`,
     `服务特色：${plan.serviceFeatures.join("；")}`,
     `成熟后处理：${plan.harvestOptions.join(" / ")}`,
@@ -357,7 +407,7 @@ export function formatRecommendation(plan) {
 
   for (const item of plan.recommendations) {
     lines.push(
-      `- ${item.crop}：${item.areaText}，${item.estimatedCostText}，约 ${item.cycleDays} 天，适配度 ${item.suitability}/100`
+      `- ${item.crop}：${item.areaText}，${item.estimatedCostText}，成熟周期约 ${item.cycleDays} 天，预计产量 ${item.expectedYieldText}，适配度 ${item.suitability}/100`
     );
     lines.push(`  原因：${item.reasons.join("；")}`);
   }
