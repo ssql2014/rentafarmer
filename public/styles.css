@@ -414,7 +414,7 @@ button[type="button"] {
 }
 
 .static-shot::after {
-  content: "静态截图 · 非在线地图嵌入";
+  content: "百度地图查询截图 · 非在线地图嵌入";
   position: absolute;
   right: 18px;
   bottom: 18px;
@@ -428,6 +428,10 @@ button[type="button"] {
 
 .map-frame.static-shot {
   position: relative;
+}
+
+.baidu-shot {
+  background: #eef2f6;
 }
 
 .plot-sketch {
