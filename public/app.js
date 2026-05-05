@@ -58,7 +58,7 @@ function renderPlan(plan) {
     <article class="card">
       <h3>预估费用</h3>
       <div class="metric">${plan.total.estimatedCostText}</div>
-      <p>建议总面积 ${plan.total.areaText}。该金额是意向预估，最终报价由人工核地后确认。</p>
+      <p>建议总面积 ${plan.total.areaText}。该金额是意向预估，最终报价由主理人核地后确认。</p>
       <a class="pay-link" href="#compliance">查看承接边界</a>
     </article>
     <article class="card">
@@ -69,7 +69,7 @@ function renderPlan(plan) {
     </article>
     <article class="card">
       <h3>下一步</h3>
-      <p>区域接口人：${plan.nextStep.areaContact.name}</p>
+      <p>区域主理人：${plan.nextStep.areaContact.name}</p>
       <p>负责范围：${plan.nextStep.areaContact.area}</p>
       <p>加微信：${plan.nextStep.wechatId}</p>
       <p>${plan.nextStep.message.replaceAll("\n", "<br>")}</p>

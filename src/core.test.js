@@ -17,7 +17,7 @@ test("recommendPlan returns recommendations and WeChat handoff", () => {
   assert.ok(plan.recommendations.length >= 1);
   assert.ok(plan.total.estimatedCost > 0);
   assert.equal(plan.nextStep.action, "add_wechat");
-  assert.match(plan.nextStep.message, /接口人/);
+  assert.match(plan.nextStep.message, /主理人/);
   assert.ok(plan.serviceFeatures.some((item) => item.includes("不打农药")));
   assert.ok(plan.serviceFeatures.some((item) => item.includes("24 小时视频监控")));
   assert.ok(plan.harvestOptions.some((item) => item.includes("自行")));
@@ -36,5 +36,5 @@ test("recommendPlan routes Pingyang Aojiang Fengli inquiries to area contact", (
     date: "2026-05-05"
   });
   assert.equal(plan.nextStep.areaContact.id, "pingyang-aojiang-fengli");
-  assert.match(plan.nextStep.message, /平阳鳌江接口人/);
+  assert.match(plan.nextStep.message, /平阳鳌江主理人/);
 });

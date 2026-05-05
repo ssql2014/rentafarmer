@@ -107,15 +107,15 @@ const areaContacts = [
   {
     id: "pingyang-aojiang-fengli",
     area: "浙江省温州市平阳县鳌江镇凤里社区",
-    name: "平阳鳌江接口人",
-    role: "地块核验、农户协调、微信人工承接",
+    name: "平阳鳌江主理人",
+    role: "地块核验、农户协调、微信客户对接",
     wechatId: process.env.RENTAFARMER_PINGYANG_WECHAT || process.env.RENTAFARMER_WECHAT || "rentafarmer-pingyang",
     match: ["浙江", "温州", "平阳", "鳌江", "凤里"]
   },
   {
     id: "default",
     area: "默认服务区",
-    name: "总调度接口人",
+    name: "总调度主理人",
     role: "意向登记、区域分流、人工复核",
     wechatId: process.env.RENTAFARMER_WECHAT || "rentafarmer-service",
     match: []
@@ -203,9 +203,9 @@ export function recommendPlan(text = "", options = {}) {
     serviceFeatures: [
       "有机方式管护，不打农药，优先采用人工除草、物理防虫和生物防治。",
       "地块接入 24 小时视频监控，用户可远程查看种植过程。",
-      "当地农民提供日常种植、浇水、除草、采摘和配送协助。"
+      "当地农民提供日常种植、浇水、除草、采摘和配送协助，区域主理人负责客户对接。"
     ],
-    harvestOptions: ["成熟后自行到地块采摘", "由接口人安排采摘并邮寄", "委托当地接口人代为销售"],
+    harvestOptions: ["成熟后自行到地块采摘", "由主理人安排采摘并邮寄", "委托当地主理人代为销售"],
     total: {
       areaFen: Number(totalAreaFen.toFixed(2)),
       areaText: formatFen(totalAreaFen),
@@ -220,9 +220,9 @@ export function recommendPlan(text = "", options = {}) {
     },
     compliance: [
       "当前输出是种植意向建议，不构成最终报价。",
-      "确认意向后进入微信人工核地、核农时、核配送和合同边界。",
+      "确认意向后进入微信主理人核地、核农时、核配送和合同边界。",
       "认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。",
-      "有机方式管护不等同于有机产品认证；如需认证，应由人工接口人核验证书。"
+      "有机方式管护不等同于有机产品认证；如需认证，应由主理人核验证书。"
     ]
   };
 }
@@ -339,7 +339,7 @@ function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
     `预估费用：${money.format(totalCost)}`,
     "服务要求：有机方式管护、不打农药、24 小时视频监控、当地农民服务。",
     "成熟后选项：自行采摘、邮寄、或委托代为销售。",
-    `请转给${contact.name}，帮我核地块、农时、监控、采摘/邮寄/代卖和最终报价。`
+    `请转给${contact.name}，加微信对接客户，帮我核地块、农时、监控、采摘/邮寄/代卖和最终报价。`
   ].join("\n");
 }
 
@@ -371,7 +371,7 @@ export function formatRecommendation(plan) {
 
   lines.push(
     "",
-    `下一步：加微信 ${plan.nextStep.wechatId}，由${plan.nextStep.areaContact.name}承接，发送以下信息进入人工确认：`
+    `下一步：加微信 ${plan.nextStep.wechatId}，由${plan.nextStep.areaContact.name}承接客户，发送以下信息进入主理人确认：`
   );
   lines.push(plan.nextStep.message);
   return lines.join("\n");

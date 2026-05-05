@@ -32,7 +32,7 @@
           <p class="eyebrow">有机管护 · 24 小时视频 · 当地农民服务</p>
           <h1>让用户看得见地块，也看得见种菜过程。</h1>
           <p class="lead">
-            用户给出一种或多种蔬菜，系统结合季节和地块条件生成建议。地块按有机方式管护，不打农药，接入 24 小时视频监控，由当地农民提供日常服务。
+            用户给出一种或多种蔬菜，AI 结合季节和地块条件生成建议；确认意向后，由区域主理人加微信对接客户，核地块、核农时、安排当地农民服务。
           </p>
           <form id="request-form" class="planner">
             <label for="request">告诉 AI 你想种什么</label>
@@ -44,6 +44,10 @@
           </form>
         </div>
         <div class="hero-visual" aria-label="菜地建议看板">
+          <div class="visual-note">
+            <strong>菜地建议看板</strong>
+            <span>用于预览 AI 如何分配品种、面积、费用，并显示主理人对接状态。</span>
+          </div>
           <div class="field-grid">
             <span></span><span></span><span></span><span></span>
             <span></span><span></span><span></span><span></span>
@@ -51,7 +55,7 @@
           </div>
           <div class="floating-ticket">
             <strong>当前状态</strong>
-            <span>等待 AI 解析地块和品种</span>
+            <span>等待 AI 解析，随后转给区域主理人</span>
           </div>
         </div>
       </section>
@@ -61,7 +65,7 @@
           <p>AI 建议结果</p>
           <h2>品种、面积和费用先行判断</h2>
         </div>
-        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、预估费用、周期和微信人工承接信息。</div>
+        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、预估费用、周期和微信主理人承接信息。</div>
         <div id="result" class="result hidden"></div>
       </section>
 
@@ -73,7 +77,7 @@
         <div class="feature-grid">
           <article>
             <h3>有机方式管护</h3>
-            <p>默认不打农药，优先采用人工除草、物理防虫、生物防治和农事隔离。若用户需要认证级有机产品，需由接口人核验证书。</p>
+            <p>默认不打农药，优先采用人工除草、物理防虫、生物防治和农事隔离。若用户需要认证级有机产品，需由主理人核验证书。</p>
           </article>
           <article>
             <h3>24 小时视频监控</h3>
@@ -81,11 +85,11 @@
           </article>
           <article>
             <h3>当地农民服务</h3>
-            <p>由当地农民负责浇水、除草、巡田、采摘、打包和日常维护，区域接口人负责调度和验收。</p>
+            <p>由当地农民负责浇水、除草、巡田、采摘、打包和日常维护，区域主理人负责调度、验收和客户沟通。</p>
           </article>
           <article>
             <h3>成熟后灵活处理</h3>
-            <p>瓜果成熟后，用户可以自行到地块采摘，也可以选择邮寄到家，或委托接口人代为销售。</p>
+            <p>瓜果成熟后，用户可以自行到地块采摘，也可以选择邮寄到家，或委托主理人代为销售。</p>
           </article>
         </div>
       </section>
@@ -93,7 +97,7 @@
       <section id="workflow" class="band">
         <div class="section-title">
           <p>承接流程</p>
-          <h2>从自然语言到区域接口人</h2>
+          <h2>从自然语言到区域主理人</h2>
         </div>
         <div class="steps">
           <article>
@@ -113,25 +117,25 @@
           </article>
           <article>
             <b>4</b>
-            <h3>接口人承接</h3>
-            <p>系统按区域转给专人，人工核地块、农时、配送和最终报价。</p>
+            <h3>主理人承接</h3>
+            <p>系统按区域转给主理人，主理人加微信对接客户，核地块、农时、配送和最终报价。</p>
           </article>
         </div>
       </section>
 
       <section id="regions" class="regions">
         <div class="section-title">
-          <p>区域接口人</p>
+          <p>区域主理人</p>
           <h2>每个服务区域都有专人负责对接</h2>
         </div>
         <div class="region-layout">
           <article class="region-card primary-region">
-            <h3>浙江平阳鳌江凤里接口</h3>
+            <h3>浙江平阳鳌江凤里主理人</h3>
             <p>负责范围：浙江省温州市平阳县鳌江镇凤里社区地块。</p>
             <dl>
               <div>
-                <dt>接口人</dt>
-                <dd>平阳鳌江接口人</dd>
+                <dt>主理人</dt>
+                <dd>平阳鳌江主理人</dd>
               </div>
               <div>
                 <dt>职责</dt>
@@ -148,8 +152,8 @@
             <ol>
               <li>用户提交蔬菜品种、面积和地块条件。</li>
               <li>AI 生成种植建议和费用预估。</li>
-              <li>系统识别所属区域，把种植意向和服务要求转给该区域接口人。</li>
-              <li>接口人通过微信完成核地、核农时、视频监控、采摘/邮寄/代卖和最终报价。</li>
+              <li>系统识别所属区域，把种植意向和服务要求转给该区域主理人。</li>
+              <li>主理人通过微信对接客户，完成核地、核农时、视频监控、采摘/邮寄/代卖和最终报价。</li>
             </ol>
           </article>
         </div>
@@ -162,11 +166,11 @@
             <h2>浙江省平阳县鳌江镇凤里村农田</h2>
           </div>
           <p>
-            这里不嵌入在线地图，改为使用你提供的 FengLiCun 卫星农田图作为静态展示。截图用于定位凤里村农田服务区，具体田界、可用面积、水源和道路条件由平阳鳌江接口人现场核验。
+            这里不嵌入在线地图，改为使用你提供的 FengLiCun 卫星农田图作为静态展示。截图用于定位凤里村农田服务区，具体田界、可用面积、水源和道路条件由平阳鳌江主理人现场核验。
           </p>
           <div class="map-meta">
             <span>区域：浙江平阳鳌江</span>
-            <span>接口人：平阳鳌江接口人</span>
+            <span>主理人：平阳鳌江主理人</span>
             <span>服务：有机管护、不打农药、24 小时视频监控</span>
             <span>来源：用户提供地图截图</span>
           </div>
@@ -239,7 +243,7 @@ openclaw skills list</code></pre>
           </div>
           <p>
             平台对用户提供自然语言入口，先输出标准 JSON：意向、地块条件、推荐品种、面积、费用和微信承接话术。
-            后续由人工确认地块、农时、视频监控、当地农民服务、成熟后采摘/邮寄/代卖和最终报价。
+            后续由区域主理人加微信对接客户，确认地块、农时、视频监控、当地农民服务、成熟后采摘/邮寄/代卖和最终报价。
           </p>
         </div>
         <pre id="api-preview"><code>POST /api/plan
@@ -251,13 +255,13 @@ openclaw skills list</code></pre>
       <section id="compliance" class="compliance">
         <div class="section-title">
           <p>边界</p>
-          <h2>先咨询，再人工确认</h2>
+          <h2>先咨询，再由主理人确认</h2>
         </div>
         <ul>
           <li>AI 输出是种植意向建议，不构成最终报价。</li>
-          <li>确认意向后加微信，由人工核地块、农时、配送和合同边界。</li>
+          <li>确认意向后加微信，由区域主理人核地块、农时、配送和合同边界。</li>
           <li>服务特色为有机方式管护、不打农药和 24 小时视频监控；如需“有机认证”，需另行核验证书。</li>
-          <li>瓜果成熟后可自行采摘、邮寄，或委托接口人代为销售。</li>
+          <li>瓜果成熟后可自行采摘、邮寄，或委托主理人代为销售。</li>
           <li>认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。</li>
           <li>高风险作业由认证主体承接，村级协理只做复核、见证和调解。</li>
         </ul>
