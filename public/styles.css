@@ -413,7 +413,7 @@ button[type="button"] {
 }
 
 .static-shot::after {
-  content: "百度地图查询截图 · 非在线地图嵌入";
+  content: "用户提供农田截图 · 非在线地图嵌入";
   position: absolute;
   right: 18px;
   bottom: 18px;

@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1512" height="1102" viewBox="0 0 1512 1102" role="img" aria-labelledby="title desc">
+  <title id="title">FengLiCun 农田卫星图</title>
+  <desc id="desc">根据用户提供的 FengLiCun 卫星农田图制作的本地静态展示图，包含 Fengli Strawberry Plucking Park、FengLiCun、河道、田间路和农田纹理。</desc>
+  <defs>
+    <filter id="labelShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#07111f" flood-opacity=".85"/>
+    </filter>
+    <filter id="pinShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#15202b" flood-opacity=".5"/>
+    </filter>
+    <pattern id="fieldRowsA" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+      <rect width="34" height="34" fill="#8b8769"/>
+      <rect width="4" height="34" fill="#b1aa82" opacity=".42"/>
+      <rect x="15" width="3" height="34" fill="#5f6f4d" opacity=".32"/>
+    </pattern>
+    <pattern id="fieldRowsB" width="42" height="42" patternUnits="userSpaceOnUse" patternTransform="rotate(-18)">
+      <rect width="42" height="42" fill="#7d8464"/>
+      <rect width="5" height="42" fill="#b8b08a" opacity=".34"/>
+      <rect x="24" width="4" height="42" fill="#4e6c43" opacity=".3"/>
+    </pattern>
+    <pattern id="greenhouse" width="56" height="22" patternUnits="userSpaceOnUse">
+      <rect width="56" height="22" fill="#7b9b8a"/>
+      <rect y="3" width="56" height="6" fill="#c4d6c9" opacity=".68"/>
+      <rect y="13" width="56" height="5" fill="#dce8df" opacity=".58"/>
+    </pattern>
+    <linearGradient id="water" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#213b33"/>
+      <stop offset=".55" stop-color="#162f2c"/>
+      <stop offset="1" stop-color="#34483d"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1512" height="1102" fill="#7d8062"/>
+
+  <g opacity=".96">
+    <path d="M0 0H1512V1102H0Z" fill="#77795e"/>
+    <path d="M0 0H450L320 288L0 432Z" fill="url(#fieldRowsA)" opacity=".82"/>
+    <path d="M430 0H940L820 280L505 330Z" fill="url(#fieldRowsB)" opacity=".86"/>
+    <path d="M950 0H1512V330L1130 260L1040 120Z" fill="url(#fieldRowsA)" opacity=".74"/>
+    <path d="M40 360L450 275L650 535L290 770L0 640Z" fill="url(#fieldRowsA)" opacity=".9"/>
+    <path d="M500 315L1010 300L1118 612L720 805L410 640Z" fill="url(#fieldRowsB)" opacity=".92"/>
+    <path d="M1035 300L1512 230V678L1110 634Z" fill="url(#fieldRowsA)" opacity=".86"/>
+    <path d="M0 682L360 745L510 1102H0Z" fill="url(#fieldRowsB)" opacity=".8"/>
+    <path d="M380 770L785 785L910 1102H520Z" fill="url(#fieldRowsA)" opacity=".88"/>
+    <path d="M875 790L1512 670V1102H930Z" fill="url(#fieldRowsB)" opacity=".82"/>
+  </g>
+
+  <g opacity=".92">
+    <path d="M-30 95C185 28 282 145 430 98C586 48 705 54 810 86C928 123 1018 75 1130 78C1305 82 1410 112 1548 72" fill="none" stroke="url(#water)" stroke-width="58"/>
+    <path d="M-40 445C160 416 258 318 412 346C560 372 580 472 738 444C900 416 996 300 1120 370C1240 438 1300 530 1540 488" fill="none" stroke="url(#water)" stroke-width="60"/>
+    <path d="M1368 0C1305 148 1312 258 1222 398C1132 536 1180 718 1086 832C1014 920 908 980 840 1140" fill="none" stroke="url(#water)" stroke-width="48" opacity=".72"/>
+  </g>
+
+  <g opacity=".95">
+    <path d="M5 930C220 790 462 838 675 812C852 790 1052 730 1298 666C1392 642 1456 625 1512 620" fill="none" stroke="#c0b493" stroke-width="18"/>
+    <path d="M350 0C408 214 426 380 498 516C572 655 690 746 720 1102" fill="none" stroke="#bdb08c" stroke-width="14"/>
+    <path d="M165 0C145 160 128 275 98 412C68 545 36 662 0 760" fill="none" stroke="#b9ad8f" stroke-width="10"/>
+    <path d="M118 462C280 500 392 520 510 608C662 720 780 730 914 650C1030 580 1110 552 1196 640" fill="none" stroke="#c8bd9c" stroke-width="10"/>
+    <path d="M605 1088C640 920 704 792 778 690C842 602 900 535 908 404" fill="none" stroke="#c8bd9c" stroke-width="8"/>
+    <path d="M995 252C1116 198 1258 210 1512 218" fill="none" stroke="#bdb08c" stroke-width="10"/>
+  </g>
+
+  <g opacity=".92">
+    <path d="M112 622L310 590L335 710L120 746Z" fill="url(#greenhouse)" opacity=".9"/>
+    <path d="M68 950L260 910L320 1050L90 1080Z" fill="url(#greenhouse)" opacity=".7"/>
+    <path d="M850 68L1038 40L1092 160L892 185Z" fill="#8d8974"/>
+    <path d="M910 92L1040 75L1076 152L936 168Z" fill="#b9c1aa" opacity=".74"/>
+    <path d="M1162 24L1512 0V96L1210 118Z" fill="#6f7460" opacity=".78"/>
+  </g>
+
+  <g opacity=".44">
+    <path d="M512 410L892 352" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M500 446L880 388" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M488 482L868 424" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M460 560L820 506" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M425 622L760 572" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M838 820L1420 722" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M842 865L1424 767" stroke="#c3bb96" stroke-width="3"/>
+    <path d="M848 910L1430 812" stroke="#c3bb96" stroke-width="3"/>
+  </g>
+
+  <g transform="translate(205 724)" filter="url(#labelShadow)">
+    <circle cx="0" cy="-30" r="30" fill="#65ca71" stroke="#183b2b" stroke-width="5"/>
+    <path d="M-10 -30C-2 -48 16 -47 14 -31C5 -33 -3 -31 -10 -30Z" fill="#173b2b"/>
+    <path d="M0 -12V-31" stroke="#173b2b" stroke-width="5" stroke-linecap="round"/>
+    <text x="0" y="24" text-anchor="middle" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="28" font-weight="900" fill="#f7fbff">Fengli</text>
+    <text x="0" y="58" text-anchor="middle" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="28" font-weight="900" fill="#f7fbff">Strawberry</text>
+    <text x="0" y="92" text-anchor="middle" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="28" font-weight="900" fill="#f7fbff">Plucking Park</text>
+  </g>
+
+  <g transform="translate(627 790)" filter="url(#pinShadow)">
+    <path d="M0 -18C54 -18 98 26 98 80C98 145 36 170 14 202C8 210 -8 210 -14 202C-36 170 -98 145 -98 80C-98 26 -54 -18 0 -18Z" fill="#2b3036" opacity=".9"/>
+    <rect x="-78" y="-6" width="156" height="132" rx="42" fill="#4b9aff"/>
+    <path d="M-28 66H28C38 66 46 75 46 86V104H-46V86C-46 75 -38 66 -28 66Z" fill="#173b62"/>
+    <rect x="-24" y="76" width="48" height="16" fill="#7fb7ff"/>
+    <circle cx="-30" cy="118" r="6" fill="#173b62"/>
+    <circle cx="30" cy="118" r="6" fill="#173b62"/>
+  </g>
+
+  <g transform="translate(626 956)" filter="url(#labelShadow)">
+    <circle cx="0" cy="-24" r="9" fill="#2a6eea" stroke="#163b8b" stroke-width="4"/>
+    <text x="0" y="18" text-anchor="middle" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="28" font-weight="900" fill="#fff">FengLiCun</text>
+  </g>
+
+  <g transform="translate(1410 120) rotate(44)" filter="url(#labelShadow)">
+    <text x="0" y="0" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="24" font-weight="900" fill="#f7fbff">QIANMA LIN</text>
+  </g>
+
+  <g transform="translate(28 28)">
+    <rect width="422" height="86" rx="12" fill="#111a15" opacity=".58"/>
+    <text x="20" y="36" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="24" font-weight="900" fill="#fff">FengLiCun 农田截图</text>
+    <text x="20" y="66" font-family="Arial, 'Noto Sans SC', sans-serif" font-size="18" fill="#dce8df">按用户提供地图重绘为本地静态展示图</text>
+  </g>
+</svg>
