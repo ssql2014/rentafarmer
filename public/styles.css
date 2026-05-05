@@ -210,6 +210,7 @@ button[type="button"] {
 
 .panel,
 .band,
+.install,
 .api-layout,
 .compliance {
   padding: clamp(38px, 6vw, 76px) clamp(18px, 4vw, 56px);
@@ -286,6 +287,38 @@ button[type="button"] {
   background: var(--soil);
 }
 
+.install {
+  background: #fffdf8;
+}
+
+.install-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.install-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: white;
+}
+
+.install-card h3 {
+  margin: 0 0 10px;
+}
+
+.install-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.install-card pre {
+  min-height: 0;
+  margin-top: 14px;
+  font-size: 13px;
+}
+
 .api-layout {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -324,7 +357,8 @@ pre {
   }
 
   .result,
-  .steps {
+  .steps,
+  .install-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -335,7 +369,8 @@ pre {
   }
 
   .result,
-  .steps {
+  .steps,
+  .install-grid {
     grid-template-columns: 1fr;
   }
 

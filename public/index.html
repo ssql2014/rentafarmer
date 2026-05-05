@@ -17,6 +17,7 @@
       </div>
       <nav>
         <a href="#workflow">流程</a>
+        <a href="#install">安装</a>
         <a href="#api">API</a>
         <a href="#compliance">边界</a>
       </nav>
@@ -86,6 +87,40 @@
             <b>4</b>
             <h3>微信承接</h3>
             <p>用户确认意向后加微信，人工介入核地块和最终报价。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="install" class="install">
+        <div class="section-title">
+          <p>安装与调用</p>
+          <h2>CLI、Codex Skill、Claude Skill</h2>
+        </div>
+        <div class="install-grid">
+          <article class="install-card">
+            <h3>1. 获取项目</h3>
+            <p>先 clone 公共仓库，后续 CLI、Codex 和 Claude 都复用这份目录。</p>
+            <pre><code>git clone https://github.com/ssql2014/rentafarmer.git
+cd rentafarmer
+npm test</code></pre>
+          </article>
+          <article class="install-card">
+            <h3>2. 安装 CLI</h3>
+            <p>本机注册 `rentafarmer` 命令，用自然语言生成种植建议。</p>
+            <pre><code>npm link
+rentafarmer recommend "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土"</code></pre>
+          </article>
+          <article class="install-card">
+            <h3>3. 安装到 Codex</h3>
+            <p>把仓库作为 Codex skill 目录挂到本机 Codex skills 下。</p>
+            <pre><code>mkdir -p ~/.codex/skills
+ln -s "$PWD" ~/.codex/skills/rentafarmer</code></pre>
+          </article>
+          <article class="install-card">
+            <h3>4. 安装到 Claude</h3>
+            <p>Claude 同样可以通过 skills 目录读取根目录的 `SKILL.md`。</p>
+            <pre><code>mkdir -p ~/.claude/skills
+ln -s "$PWD" ~/.claude/skills/rentafarmer</code></pre>
           </article>
         </div>
       </section>
