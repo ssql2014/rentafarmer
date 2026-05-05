@@ -17,6 +17,8 @@
       </div>
       <nav>
         <a href="#workflow">流程</a>
+        <a href="#regions">区域</a>
+        <a href="#plot-map">地图</a>
         <a href="#install">安装</a>
         <a href="#api">API</a>
         <a href="#compliance">边界</a>
@@ -65,7 +67,7 @@
       <section id="workflow" class="band">
         <div class="section-title">
           <p>承接流程</p>
-          <h2>从自然语言到人工确认</h2>
+          <h2>从自然语言到区域接口人</h2>
         </div>
         <div class="steps">
           <article>
@@ -85,9 +87,70 @@
           </article>
           <article>
             <b>4</b>
-            <h3>微信承接</h3>
-            <p>用户确认意向后加微信，人工介入核地块和最终报价。</p>
+            <h3>接口人承接</h3>
+            <p>系统按区域转给专人，人工核地块、农时、配送和最终报价。</p>
           </article>
+        </div>
+      </section>
+
+      <section id="regions" class="regions">
+        <div class="section-title">
+          <p>区域接口人</p>
+          <h2>每个服务区域都有专人负责对接</h2>
+        </div>
+        <div class="region-layout">
+          <article class="region-card primary-region">
+            <h3>浙江平阳鳌江凤里接口</h3>
+            <p>负责范围：浙江省温州市平阳县鳌江镇凤里社区地块。</p>
+            <dl>
+              <div>
+                <dt>接口人</dt>
+                <dd>平阳鳌江接口人</dd>
+              </div>
+              <div>
+                <dt>职责</dt>
+                <dd>地块核验、农户协调、人工报价、微信承接</dd>
+              </div>
+              <div>
+                <dt>微信</dt>
+                <dd>rentafarmer-pingyang</dd>
+              </div>
+            </dl>
+          </article>
+          <article class="region-card">
+            <h3>信息流转规则</h3>
+            <ol>
+              <li>用户提交蔬菜品种、面积和地块条件。</li>
+              <li>AI 生成种植建议和费用预估。</li>
+              <li>系统识别所属区域，把意向信息转给该区域接口人。</li>
+              <li>接口人通过微信完成核地、核农时和最终报价。</li>
+            </ol>
+          </article>
+        </div>
+      </section>
+
+      <section id="plot-map" class="plot-map">
+        <div class="map-copy">
+          <div class="section-title">
+            <p>示范地块</p>
+            <h2>浙江省平阳县鳌江镇凤里社区</h2>
+          </div>
+          <p>
+            该位置作为首个示范服务区展示。地图用于表达服务区域和接口人归属，具体地块边界、可用面积、水源和道路条件由平阳鳌江接口人现场核验。
+          </p>
+          <div class="map-meta">
+            <span>区域：浙江平阳鳌江</span>
+            <span>接口人：平阳鳌江接口人</span>
+            <span>状态：人工核地待确认</span>
+          </div>
+        </div>
+        <div class="map-frame">
+          <iframe
+            title="浙江省温州市平阳县鳌江镇凤里社区地块示意地图"
+            src="https://maps.google.com/maps?q=%E6%B5%99%E6%B1%9F%E7%9C%81%E6%B8%A9%E5%B7%9E%E5%B8%82%E5%B9%B3%E9%98%B3%E5%8E%BF%E9%B3%8C%E6%B1%9F%E9%95%87%E5%87%A4%E9%87%8C%E7%A4%BE%E5%8C%BA&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </section>
 

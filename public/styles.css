@@ -210,6 +210,8 @@ button[type="button"] {
 
 .panel,
 .band,
+.regions,
+.plot-map,
 .install,
 .api-layout,
 .compliance {
@@ -287,6 +289,105 @@ button[type="button"] {
   background: var(--soil);
 }
 
+.regions {
+  background: #fffdf8;
+}
+
+.region-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: 14px;
+}
+
+.region-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: white;
+}
+
+.primary-region {
+  border-color: rgba(35, 107, 74, 0.35);
+  background: #f7fbf2;
+}
+
+.region-card h3 {
+  margin: 0 0 12px;
+}
+
+.region-card p,
+.region-card li,
+.map-copy p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.region-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+}
+
+.region-card dl div {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+.region-card dt {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.region-card dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+.plot-map {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(360px, 1.28fr);
+  gap: 24px;
+  align-items: stretch;
+  background: #f8f4ed;
+}
+
+.map-copy {
+  align-self: center;
+}
+
+.map-meta {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.map-meta span {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.map-frame {
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 0;
+}
+
 .install {
   background: #fffdf8;
 }
@@ -348,7 +449,9 @@ pre {
 
 @media (max-width: 900px) {
   .hero,
-  .api-layout {
+  .api-layout,
+  .plot-map,
+  .region-layout {
     grid-template-columns: 1fr;
   }
 

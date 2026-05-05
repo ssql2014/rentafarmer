@@ -17,11 +17,19 @@ test("recommendPlan returns recommendations and WeChat handoff", () => {
   assert.ok(plan.recommendations.length >= 1);
   assert.ok(plan.total.estimatedCost > 0);
   assert.equal(plan.nextStep.action, "add_wechat");
-  assert.match(plan.nextStep.message, /人工/);
+  assert.match(plan.nextStep.message, /接口人/);
 });
 
 test("recommendPlan replaces requested crops when season is unsuitable", () => {
   const plan = recommendPlan("地块 3 分，黏土，浇水不便，想种白菜、萝卜", { date: "2026-05-05" });
   assert.ok(plan.notRecommended.some((item) => item.crop === "萝卜"));
   assert.ok(plan.recommendations.every((item) => item.suitability >= 70));
+});
+
+test("recommendPlan routes Pingyang Aojiang Fengli inquiries to area contact", () => {
+  const plan = recommendPlan("浙江省平阳县鳌江镇凤里社区，地块 2 分，全日照，想种番茄和生菜", {
+    date: "2026-05-05"
+  });
+  assert.equal(plan.nextStep.areaContact.id, "pingyang-aojiang-fengli");
+  assert.match(plan.nextStep.message, /平阳鳌江接口人/);
 });

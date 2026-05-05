@@ -103,6 +103,25 @@ const money = new Intl.NumberFormat("zh-CN", {
   maximumFractionDigits: 0
 });
 
+const areaContacts = [
+  {
+    id: "pingyang-aojiang-fengli",
+    area: "浙江省温州市平阳县鳌江镇凤里社区",
+    name: "平阳鳌江接口人",
+    role: "地块核验、农户协调、微信人工承接",
+    wechatId: process.env.RENTAFARMER_PINGYANG_WECHAT || process.env.RENTAFARMER_WECHAT || "rentafarmer-pingyang",
+    match: ["浙江", "温州", "平阳", "鳌江", "凤里"]
+  },
+  {
+    id: "default",
+    area: "默认服务区",
+    name: "总调度接口人",
+    role: "意向登记、区域分流、人工复核",
+    wechatId: process.env.RENTAFARMER_WECHAT || "rentafarmer-service",
+    match: []
+  }
+];
+
 export function parseInquiry(text = "", date = new Date()) {
   const source = String(text).trim();
   const crops = cropCatalog
@@ -136,6 +155,7 @@ export function parseInquiry(text = "", date = new Date()) {
 
 export function recommendPlan(text = "", options = {}) {
   const inquiry = parseInquiry(text, options.date ? new Date(options.date) : new Date());
+  const contact = resolveAreaContact(inquiry);
   const totalAreaFen = inquiry.areaFen ?? defaultAreaFen(inquiry.requestedCrops.length);
   const candidates = scoreCrops(inquiry);
   const requestedGood = candidates.filter((item) => inquiry.requestedCrops.includes(item.crop) && item.suitability >= 70);
@@ -188,8 +208,9 @@ export function recommendPlan(text = "", options = {}) {
     },
     nextStep: {
       action: "add_wechat",
-      wechatId: process.env.RENTAFARMER_WECHAT || "rentafarmer-service",
-      message: buildWechatMessage(inquiry, recommendations, totalCost)
+      areaContact: contact,
+      wechatId: contact.wechatId,
+      message: buildWechatMessage(inquiry, recommendations, totalCost, contact)
     },
     compliance: [
       "当前输出是种植意向建议，不构成最终报价。",
@@ -266,6 +287,7 @@ function defaultAreaFen(cropCount) {
 }
 
 function detectRegion(text) {
+  if (/凤里|鳌江|平阳|温州|浙江/.test(text)) return "浙江平阳鳌江";
   if (/广东|广西|海南|福建|云南|深圳|广州|南方/.test(text)) return "华南";
   if (/东北|黑龙江|吉林|辽宁|内蒙古|北方/.test(text)) return "北方";
   if (/四川|重庆|湖北|湖南|江西|浙江|江苏|安徽|河南|山东|中部/.test(text)) return "中东部";
@@ -296,14 +318,19 @@ function formatFen(areaFen) {
   return `${Number(areaFen.toFixed(2))} 分`;
 }
 
-function buildWechatMessage(inquiry, recommendations, totalCost) {
+function resolveAreaContact(inquiry) {
+  const source = `${inquiry.rawText} ${inquiry.region}`;
+  return areaContacts.find((contact) => contact.match.some((item) => source.includes(item))) || areaContacts.at(-1);
+}
+
+function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
   const crops = recommendations.map((item) => `${item.crop}${item.areaText}`).join("、");
   return [
     "你好，我想确认云种菜方案。",
     `需求：${inquiry.rawText || "未填写"}`,
     `AI 建议：${crops}`,
     `预估费用：${money.format(totalCost)}`,
-    "请人工帮我核地块、农时、配送和最终报价。"
+    `请转给${contact.name}，帮我核地块、农时、配送和最终报价。`
   ].join("\n");
 }
 
@@ -331,7 +358,10 @@ export function formatRecommendation(plan) {
     }
   }
 
-  lines.push("", `下一步：加微信 ${plan.nextStep.wechatId}，发送以下信息进入人工确认：`);
+  lines.push(
+    "",
+    `下一步：加微信 ${plan.nextStep.wechatId}，由${plan.nextStep.areaContact.name}承接，发送以下信息进入人工确认：`
+  );
   lines.push(plan.nextStep.message);
   return lines.join("\n");
 }

@@ -9,7 +9,8 @@ const samples = [
   "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便",
   "广东，60 平方米，半日照，想种生菜和菠菜，亲子体验",
   "北方 1 亩地，想种甜玉米和辣椒，有水源，预算 3000",
-  "地块 3 分，黏土，浇水不便，想种白菜、萝卜"
+  "地块 3 分，黏土，浇水不便，想种白菜、萝卜",
+  "浙江省平阳县鳌江镇凤里社区，地块 2 分，全日照，想种番茄和生菜"
 ];
 
 sample.addEventListener("click", () => {
@@ -63,6 +64,8 @@ function renderPlan(plan) {
     </article>
     <article class="card">
       <h3>下一步</h3>
+      <p>区域接口人：${plan.nextStep.areaContact.name}</p>
+      <p>负责范围：${plan.nextStep.areaContact.area}</p>
       <p>加微信：${plan.nextStep.wechatId}</p>
       <p>${plan.nextStep.message.replaceAll("\n", "<br>")}</p>
     </article>
