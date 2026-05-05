@@ -18,6 +18,11 @@ test("recommendPlan returns recommendations and WeChat handoff", () => {
   assert.ok(plan.total.estimatedCost > 0);
   assert.equal(plan.nextStep.action, "add_wechat");
   assert.match(plan.nextStep.message, /接口人/);
+  assert.ok(plan.serviceFeatures.some((item) => item.includes("不打农药")));
+  assert.ok(plan.serviceFeatures.some((item) => item.includes("24 小时视频监控")));
+  assert.ok(plan.harvestOptions.some((item) => item.includes("自行")));
+  assert.ok(plan.harvestOptions.some((item) => item.includes("邮寄")));
+  assert.ok(plan.harvestOptions.some((item) => item.includes("销售")));
 });
 
 test("recommendPlan replaces requested crops when season is unsuitable", () => {

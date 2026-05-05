@@ -38,6 +38,11 @@ function renderPlan(plan) {
   const inquiry = plan.inquiry;
   const first = plan.recommendations[0];
   result.innerHTML = `
+    <article class="card highlight-card">
+      <h3>服务特色</h3>
+      <div class="metric">有机</div>
+      <ul>${plan.serviceFeatures.map((item) => `<li>${item}</li>`).join("")}</ul>
+    </article>
     <article class="card">
       <h3>首推品种</h3>
       <div class="metric">${first.crop}</div>
@@ -68,6 +73,10 @@ function renderPlan(plan) {
       <p>负责范围：${plan.nextStep.areaContact.area}</p>
       <p>加微信：${plan.nextStep.wechatId}</p>
       <p>${plan.nextStep.message.replaceAll("\n", "<br>")}</p>
+    </article>
+    <article class="card">
+      <h3>成熟后处理</h3>
+      <ul>${plan.harvestOptions.map((item) => `<li>${item}</li>`).join("")}</ul>
     </article>
     <article class="card">
       <h3>合规边界</h3>

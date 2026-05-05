@@ -209,6 +209,7 @@ button[type="button"] {
 }
 
 .panel,
+.features,
 .band,
 .regions,
 .plot-map,
@@ -242,6 +243,7 @@ button[type="button"] {
 }
 
 .card,
+.feature-grid article,
 .steps article {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -250,12 +252,14 @@ button[type="button"] {
 }
 
 .card h3,
+.feature-grid h3,
 .steps h3 {
   margin: 0 0 10px;
 }
 
 .card p,
 .card li,
+.feature-grid p,
 .steps p,
 .api-layout p,
 .compliance li {
@@ -267,6 +271,21 @@ button[type="button"] {
   color: var(--green);
   font-size: 30px;
   font-weight: 900;
+}
+
+.highlight-card {
+  border-color: rgba(35, 107, 74, 0.35);
+  background: #f7fbf2;
+}
+
+.features {
+  background: #fffdf8;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .band {
@@ -460,6 +479,7 @@ pre {
   }
 
   .result,
+  .feature-grid,
   .steps,
   .install-grid {
     grid-template-columns: 1fr 1fr;
@@ -472,6 +492,7 @@ pre {
   }
 
   .result,
+  .feature-grid,
   .steps,
   .install-grid {
     grid-template-columns: 1fr;

@@ -200,6 +200,12 @@ export function recommendPlan(text = "", options = {}) {
     inquiry,
     recommendations,
     notRecommended,
+    serviceFeatures: [
+      "有机方式管护，不打农药，优先采用人工除草、物理防虫和生物防治。",
+      "地块接入 24 小时视频监控，用户可远程查看种植过程。",
+      "当地农民提供日常种植、浇水、除草、采摘和配送协助。"
+    ],
+    harvestOptions: ["成熟后自行到地块采摘", "由接口人安排采摘并邮寄", "委托当地接口人代为销售"],
     total: {
       areaFen: Number(totalAreaFen.toFixed(2)),
       areaText: formatFen(totalAreaFen),
@@ -215,7 +221,8 @@ export function recommendPlan(text = "", options = {}) {
     compliance: [
       "当前输出是种植意向建议，不构成最终报价。",
       "确认意向后进入微信人工核地、核农时、核配送和合同边界。",
-      "认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。"
+      "认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。",
+      "有机方式管护不等同于有机产品认证；如需认证，应由人工接口人核验证书。"
     ]
   };
 }
@@ -330,7 +337,9 @@ function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
     `需求：${inquiry.rawText || "未填写"}`,
     `AI 建议：${crops}`,
     `预估费用：${money.format(totalCost)}`,
-    `请转给${contact.name}，帮我核地块、农时、配送和最终报价。`
+    "服务要求：有机方式管护、不打农药、24 小时视频监控、当地农民服务。",
+    "成熟后选项：自行采摘、邮寄、或委托代为销售。",
+    `请转给${contact.name}，帮我核地块、农时、监控、采摘/邮寄/代卖和最终报价。`
   ].join("\n");
 }
 
@@ -340,6 +349,8 @@ export function formatRecommendation(plan) {
     `地块信息：${plan.inquiry.region}，${plan.inquiry.plot.sunlight}，${plan.inquiry.plot.soil}，水源${plan.inquiry.plot.water}`,
     `建议面积：${plan.total.areaText}`,
     `预估费用：${plan.total.estimatedCostText}`,
+    `服务特色：${plan.serviceFeatures.join("；")}`,
+    `成熟后处理：${plan.harvestOptions.join(" / ")}`,
     "",
     "推荐品种："
   ];

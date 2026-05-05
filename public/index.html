@@ -17,6 +17,7 @@
       </div>
       <nav>
         <a href="#workflow">流程</a>
+        <a href="#features">特色</a>
         <a href="#regions">区域</a>
         <a href="#plot-map">地图</a>
         <a href="#install">安装</a>
@@ -28,10 +29,10 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">先 AI 判断，再微信人工确认</p>
-          <h1>根据蔬菜品种、地块条件和季节生成种植建议。</h1>
+          <p class="eyebrow">有机管护 · 24 小时视频 · 当地农民服务</p>
+          <h1>让用户看得见地块，也看得见种菜过程。</h1>
           <p class="lead">
-            用户给出一种或多种蔬菜，系统结合当前月份、地块光照、土壤、水源和面积，生成建议品种、面积分配、周期和费用预估。
+            用户给出一种或多种蔬菜，系统结合季节和地块条件生成建议。地块按有机方式管护，不打农药，接入 24 小时视频监控，由当地农民提供日常服务。
           </p>
           <form id="request-form" class="planner">
             <label for="request">告诉 AI 你想种什么</label>
@@ -64,6 +65,31 @@
         <div id="result" class="result hidden"></div>
       </section>
 
+      <section id="features" class="features">
+        <div class="section-title">
+          <p>产品特色</p>
+          <h2>真实地块、真实农民、全程可看</h2>
+        </div>
+        <div class="feature-grid">
+          <article>
+            <h3>有机方式管护</h3>
+            <p>默认不打农药，优先采用人工除草、物理防虫、生物防治和农事隔离。若用户需要认证级有机产品，需由接口人核验证书。</p>
+          </article>
+          <article>
+            <h3>24 小时视频监控</h3>
+            <p>示范地块接入实时视频，用户可以远程查看播种、浇水、长势、采摘和现场服务过程。</p>
+          </article>
+          <article>
+            <h3>当地农民服务</h3>
+            <p>由当地农民负责浇水、除草、巡田、采摘、打包和日常维护，区域接口人负责调度和验收。</p>
+          </article>
+          <article>
+            <h3>成熟后灵活处理</h3>
+            <p>瓜果成熟后，用户可以自行到地块采摘，也可以选择邮寄到家，或委托接口人代为销售。</p>
+          </article>
+        </div>
+      </section>
+
       <section id="workflow" class="band">
         <div class="section-title">
           <p>承接流程</p>
@@ -82,8 +108,8 @@
           </article>
           <article>
             <b>3</b>
-            <h3>费用预估</h3>
-            <p>给出建议面积、周期、任务和费用区间。</p>
+            <h3>服务配置</h3>
+            <p>确认有机管护、24 小时视频监控、当地农民服务和成熟后处理方式。</p>
           </article>
           <article>
             <b>4</b>
@@ -109,7 +135,7 @@
               </div>
               <div>
                 <dt>职责</dt>
-                <dd>地块核验、农户协调、人工报价、微信承接</dd>
+                <dd>地块核验、农户协调、视频监控、采摘邮寄、代卖承接</dd>
               </div>
               <div>
                 <dt>微信</dt>
@@ -122,8 +148,8 @@
             <ol>
               <li>用户提交蔬菜品种、面积和地块条件。</li>
               <li>AI 生成种植建议和费用预估。</li>
-              <li>系统识别所属区域，把意向信息转给该区域接口人。</li>
-              <li>接口人通过微信完成核地、核农时和最终报价。</li>
+              <li>系统识别所属区域，把种植意向和服务要求转给该区域接口人。</li>
+              <li>接口人通过微信完成核地、核农时、视频监控、采摘/邮寄/代卖和最终报价。</li>
             </ol>
           </article>
         </div>
@@ -141,6 +167,7 @@
           <div class="map-meta">
             <span>区域：浙江平阳鳌江</span>
             <span>接口人：平阳鳌江接口人</span>
+            <span>服务：有机管护、不打农药、24 小时视频监控</span>
             <span>状态：人工核地待确认</span>
           </div>
         </div>
@@ -196,7 +223,7 @@ ln -s "$PWD" ~/.claude/skills/rentafarmer</code></pre>
           </div>
           <p>
             平台对用户提供自然语言入口，先输出标准 JSON：意向、地块条件、推荐品种、面积、费用和微信承接话术。
-            后续由人工确认地块、农时、合同和合作社履约主体。
+            后续由人工确认地块、农时、视频监控、当地农民服务、成熟后采摘/邮寄/代卖和最终报价。
           </p>
         </div>
         <pre id="api-preview"><code>POST /api/plan
@@ -213,6 +240,8 @@ ln -s "$PWD" ~/.claude/skills/rentafarmer</code></pre>
         <ul>
           <li>AI 输出是种植意向建议，不构成最终报价。</li>
           <li>确认意向后加微信，由人工核地块、农时、配送和合同边界。</li>
+          <li>服务特色为有机方式管护、不打农药和 24 小时视频监控；如需“有机认证”，需另行核验证书。</li>
+          <li>瓜果成熟后可自行采摘、邮寄，或委托接口人代为销售。</li>
           <li>认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。</li>
           <li>高风险作业由认证主体承接，村级协理只做复核、见证和调解。</li>
         </ul>
