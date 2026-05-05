@@ -1,0 +1,75 @@
+const form = document.querySelector("#request-form");
+const input = document.querySelector("#request");
+const sample = document.querySelector("#sample");
+const result = document.querySelector("#result");
+const empty = document.querySelector("#empty-state");
+const apiPreview = document.querySelector("#api-preview code");
+
+const samples = [
+  "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便",
+  "广东，60 平方米，半日照，想种生菜和菠菜，亲子体验",
+  "北方 1 亩地，想种甜玉米和辣椒，有水源，预算 3000",
+  "地块 3 分，黏土，浇水不便，想种白菜、萝卜"
+];
+
+sample.addEventListener("click", () => {
+  input.value = samples[Math.floor(Math.random() * samples.length)];
+});
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setLoading();
+  const response = await fetch("/api/plan", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ text: input.value })
+  });
+  renderPlan(await response.json());
+});
+
+function setLoading() {
+  empty.classList.add("hidden");
+  result.classList.remove("hidden");
+  result.innerHTML = `<div class="card"><h3>正在解析</h3><p>AI 正在拆解作物、面积、季节、地块条件和费用。</p></div>`;
+}
+
+function renderPlan(plan) {
+  const inquiry = plan.inquiry;
+  const first = plan.recommendations[0];
+  result.innerHTML = `
+    <article class="card">
+      <h3>首推品种</h3>
+      <div class="metric">${first.crop}</div>
+      <p>${first.areaText}，约 ${first.cycleDays} 天，适配度 ${first.suitability}/100。</p>
+      <ul>${first.tasks.map((task) => `<li>${task}</li>`).join("")}</ul>
+    </article>
+    <article class="card">
+      <h3>地块条件</h3>
+      <div class="metric">${inquiry.month} 月</div>
+      <p>${inquiry.region}，${inquiry.plot.sunlight}，${inquiry.plot.soil}，水源${inquiry.plot.water}。</p>
+      <p>系统会按当前月份和地块条件筛选品种。</p>
+    </article>
+    <article class="card">
+      <h3>预估费用</h3>
+      <div class="metric">${plan.total.estimatedCostText}</div>
+      <p>建议总面积 ${plan.total.areaText}。该金额是意向预估，最终报价由人工核地后确认。</p>
+      <a class="pay-link" href="#compliance">查看承接边界</a>
+    </article>
+    <article class="card">
+      <h3>推荐组合</h3>
+      <ul>${plan.recommendations
+        .map((item) => `<li>${item.crop}：${item.areaText} / ${item.estimatedCostText}</li>`)
+        .join("")}</ul>
+    </article>
+    <article class="card">
+      <h3>下一步</h3>
+      <p>加微信：${plan.nextStep.wechatId}</p>
+      <p>${plan.nextStep.message.replaceAll("\n", "<br>")}</p>
+    </article>
+    <article class="card">
+      <h3>合规边界</h3>
+      <ul>${plan.compliance.map((item) => `<li>${item}</li>`).join("")}</ul>
+    </article>
+  `;
+  apiPreview.textContent = JSON.stringify(plan, null, 2);
+}

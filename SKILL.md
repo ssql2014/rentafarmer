@@ -1,0 +1,56 @@
+---
+name: rentafarmer
+description: Use when a user wants AI guidance for RentAFarmer 云种菜意向咨询: recommend one or more vegetable varieties based on requested crops, current season, plot area, sunlight, soil, water conditions, budget, and then hand off to WeChat for human confirmation rather than taking payment directly.
+---
+
+# RentAFarmer
+
+用这个 skill 处理“用户想雇人种菜，但还没确定具体方案”的咨询。目标是先生成可信的种植意向建议，再引导用户加微信进入人工确认。
+
+## 必要边界
+
+- 输出是种植意向建议，不是最终报价。
+- 不直接引导支付；确认意向后加微信，由人工核地块、农时、配送、合同和履约主体。
+- 认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。
+- 涉及农药、机械、无人机、高金额或不明确土地权属时，标记为人工复核。
+
+## 处理流程
+
+1. 解析用户输入：蔬菜品种、数量、面积、地区、光照、土壤、水源、是否大棚、预算和配送需求。
+2. 若用户没有给品种，按当前月份和地块条件推荐 2-3 个适合品种。
+3. 若用户给了一种或多种品种，先判断这些品种是否适合当前季节和地块；不适合时给替代建议。
+4. 输出每个推荐品种的建议面积、预计周期、预估费用、主要农事任务和推荐原因。
+5. 输出总面积和总费用预估。
+6. 输出微信承接话术，方便用户直接发送给人工运营。
+
+## 本地工具
+
+在 skill 仓库根目录运行：
+
+```bash
+node scripts/recommend.mjs "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便"
+```
+
+也可以使用 CLI：
+
+```bash
+node bin/rentafarmer.js recommend "广东，60 平方米，半日照，想种生菜和菠菜"
+node bin/rentafarmer.js parse "北方 1 亩地，想种甜玉米和辣椒，有水源，预算 3000"
+```
+
+可用环境变量：
+
+```bash
+RENTAFARMER_WECHAT=your-wechat-id
+```
+
+## 回复格式
+
+默认用中文，按下面结构输出：
+
+1. `建议结论`：适合种什么，建议总面积和费用预估。
+2. `推荐品种`：逐项列出品种、面积、费用、周期、原因。
+3. `需要人工确认`：地块位置、可用面积、水源、配送半径、是否大棚、最终报价。
+4. `下一步`：加微信号，并附可复制的微信咨询话术。
+
+不要把微信承接写成付款动作。

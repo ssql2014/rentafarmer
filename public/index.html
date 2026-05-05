@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RentAFarmer | 云种菜意向顾问</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">田</span>
+        <div>
+          <strong>RentAFarmer</strong>
+          <small>云种菜意向顾问</small>
+        </div>
+      </div>
+      <nav>
+        <a href="#workflow">流程</a>
+        <a href="#api">API</a>
+        <a href="#compliance">边界</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">先 AI 判断，再微信人工确认</p>
+          <h1>根据蔬菜品种、地块条件和季节生成种植建议。</h1>
+          <p class="lead">
+            用户给出一种或多种蔬菜，系统结合当前月份、地块光照、土壤、水源和面积，生成建议品种、面积分配、周期和费用预估。
+          </p>
+          <form id="request-form" class="planner">
+            <label for="request">告诉 AI 你想种什么</label>
+            <textarea id="request" name="request" rows="5">我想种番茄和黄瓜，地块 2 分，全日照，沙壤土，浇水方便</textarea>
+            <div class="actions">
+              <button type="submit">生成种植建议</button>
+              <button type="button" id="sample">换一个示例</button>
+            </div>
+          </form>
+        </div>
+        <div class="hero-visual" aria-label="菜地建议看板">
+          <div class="field-grid">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div class="floating-ticket">
+            <strong>当前状态</strong>
+            <span>等待 AI 解析地块和品种</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel result-panel" aria-live="polite">
+        <div class="section-title">
+          <p>AI 建议结果</p>
+          <h2>品种、面积和费用先行判断</h2>
+        </div>
+        <div id="empty-state" class="empty-state">提交需求后，这里会显示推荐品种、面积分配、预估费用、周期和微信人工承接信息。</div>
+        <div id="result" class="result hidden"></div>
+      </section>
+
+      <section id="workflow" class="band">
+        <div class="section-title">
+          <p>承接流程</p>
+          <h2>从自然语言到人工确认</h2>
+        </div>
+        <div class="steps">
+          <article>
+            <b>1</b>
+            <h3>AI 解析</h3>
+            <p>识别蔬菜品种、面积、地区、光照、土壤、水源和预算。</p>
+          </article>
+          <article>
+            <b>2</b>
+            <h3>季节判断</h3>
+            <p>按当前月份和大棚条件判断适配品种。</p>
+          </article>
+          <article>
+            <b>3</b>
+            <h3>费用预估</h3>
+            <p>给出建议面积、周期、任务和费用区间。</p>
+          </article>
+          <article>
+            <b>4</b>
+            <h3>微信承接</h3>
+            <p>用户确认意向后加微信，人工介入核地块和最终报价。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="api" class="api-layout">
+        <div>
+          <div class="section-title">
+            <p>底层能力</p>
+            <h2>把 AI 作为种植顾问入口</h2>
+          </div>
+          <p>
+            平台对用户提供自然语言入口，先输出标准 JSON：意向、地块条件、推荐品种、面积、费用和微信承接话术。
+            后续由人工确认地块、农时、合同和合作社履约主体。
+          </p>
+        </div>
+        <pre id="api-preview"><code>POST /api/plan
+{
+  "text": "我想种番茄和黄瓜，地块 2 分，全日照，沙壤土"
+}</code></pre>
+      </section>
+
+      <section id="compliance" class="compliance">
+        <div class="section-title">
+          <p>边界</p>
+          <h2>先咨询，再人工确认</h2>
+        </div>
+        <ul>
+          <li>AI 输出是种植意向建议，不构成最终报价。</li>
+          <li>确认意向后加微信，由人工核地块、农时、配送和合同边界。</li>
+          <li>认养按农事服务或消费权益处理，不承诺保本、固定收益或回购。</li>
+          <li>高风险作业由认证主体承接，村级协理只做复核、见证和调解。</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
