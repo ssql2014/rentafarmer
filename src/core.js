@@ -198,6 +198,18 @@ export function recommendPlan(text = "", options = {}) {
     };
   });
   const totalCost = recommendations.reduce((sum, item) => sum + item.estimatedCost, 0);
+  const totalYieldKg = recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0);
+  const maxCycleDays = Math.max(...recommendations.map((item) => item.cycleDays));
+  const total = {
+    areaFen: Number(totalAreaFen.toFixed(2)),
+    areaText: formatFen(totalAreaFen),
+    estimatedCost: totalCost,
+    estimatedCostText: money.format(totalCost),
+    expectedYieldKg: totalYieldKg,
+    expectedYieldText: formatKg(totalYieldKg),
+    maxCycleDays,
+    maxCycleText: `${maxCycleDays} 天左右`
+  };
   const notRecommended = inquiry.requestedCrops
     .filter((crop) => !recommendations.some((item) => item.crop === crop))
     .map((crop) => {
@@ -213,22 +225,14 @@ export function recommendPlan(text = "", options = {}) {
     inquiry,
     recommendations,
     notRecommended,
+    strategy: buildStrategy(inquiry, recommendations, total, contact),
     serviceFeatures: [
       "有机方式管护，不打农药，优先采用人工除草、物理防虫和生物防治。",
       "地块接入 24 小时视频监控，用户可远程查看种植过程。",
       "当地农民提供日常种植、浇水、除草、采摘和配送协助，区域主理人负责客户对接。"
     ],
     harvestOptions: ["成熟后自行到地块采摘", "由主理人安排采摘并邮寄", "委托当地主理人代为销售"],
-    total: {
-      areaFen: Number(totalAreaFen.toFixed(2)),
-      areaText: formatFen(totalAreaFen),
-      estimatedCost: totalCost,
-      estimatedCostText: money.format(totalCost),
-      expectedYieldKg: recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0),
-      expectedYieldText: formatKg(recommendations.reduce((sum, item) => sum + item.expectedYieldKg, 0)),
-      maxCycleDays: Math.max(...recommendations.map((item) => item.cycleDays)),
-      maxCycleText: `${Math.max(...recommendations.map((item) => item.cycleDays))} 天左右`
-    },
+    total,
     nextStep: {
       action: "add_wechat",
       areaContact: contact,
@@ -373,6 +377,19 @@ function resolveAreaContact(inquiry) {
   return areaContacts.find((contact) => contact.match.some((item) => source.includes(item))) || areaContacts.at(-1);
 }
 
+function buildStrategy(inquiry, recommendations, total, contact) {
+  const crops = recommendations.map((item) => item.crop).join(" + ");
+  const leaseAdvice = inquiry.lease.provided
+    ? `按 ${inquiry.lease.text} 租期先排一茬，主理人复核后再决定是否续种或轮作。`
+    : "客户未提供租赁时长，报价前必须先补充租期，否则无法锁定农时和服务成本。";
+  return [
+    `主推 ${crops}，按 ${total.areaText} 做分区种植，最长成熟周期约 ${total.maxCycleText}。`,
+    `预计总产量约 ${total.expectedYieldText}，成熟后可自采、邮寄或委托代卖。`,
+    leaseAdvice,
+    `由${contact.name}作为主理人接口，加微信核地块、视频监控、采摘/邮寄/代卖和最终报价。`
+  ];
+}
+
 function buildWechatMessage(inquiry, recommendations, totalCost, contact) {
   const crops = recommendations.map((item) => `${item.crop}${item.areaText}`).join("、");
   const yieldText = recommendations.map((item) => `${item.crop}${item.expectedYieldText}`).join("、");
@@ -399,6 +416,7 @@ export function formatRecommendation(plan) {
     `最长成熟周期：${plan.total.maxCycleText}`,
     `预计总产量：${plan.total.expectedYieldText}`,
     `预估费用：${plan.total.estimatedCostText}`,
+    `策略建议：${plan.strategy.join("；")}`,
     `服务特色：${plan.serviceFeatures.join("；")}`,
     `成熟后处理：${plan.harvestOptions.join(" / ")}`,
     "",

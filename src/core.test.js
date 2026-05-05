@@ -20,6 +20,8 @@ test("recommendPlan returns recommendations and WeChat handoff", () => {
   assert.ok(plan.total.estimatedCost > 0);
   assert.ok(plan.total.expectedYieldKg > 0);
   assert.ok(plan.total.maxCycleDays > 0);
+  assert.ok(plan.strategy.some((item) => item.includes("主推")));
+  assert.ok(plan.strategy.some((item) => item.includes("主理人接口")));
   assert.equal(plan.nextStep.action, "add_wechat");
   assert.match(plan.nextStep.message, /主理人/);
   assert.match(plan.nextStep.message, /租赁时长/);
